@@ -12,22 +12,22 @@ class WeatherController extends Controller
         $data = json_decode($jsonData, true);
         $timezone = new \DateTimeZone('Asia/Jakarta');
 
-        // Convert the sunrise and sunset timestamps to DateTime objects
+        // mengubah var sunrise sunset menjadi objek datetime 
         $sunrise = new \DateTime('@' . $data['sys']['sunrise']);
         $sunset = new \DateTime('@' . $data['sys']['sunset']);
 
-        // Set the timezone for the sunrise and sunset DateTime objects
+        // menetapkan timezone 
         $sunrise->setTimezone($timezone);
         $sunset->setTimezone($timezone);
 
-        // Format the sunrise and sunset DateTime objects to a date and time string
+        //format ke date dan time string 
         $data['sys']['sunrise'] = $sunrise->format('Y-m-d H:i:s');
         $data['sys']['sunset'] = $sunset->format('Y-m-d H:i:s');
 
-        // Access the 'icon' data
+        //icon weather 
         $icon = $data['weather'][0]['icon'];
 
-        // Concatenate to form the image URL
+        //ambil gambar icon
         $imgurl = 'https://openweathermap.org/img/wn/' . $icon . '@2x.png';
 
         return view('weather', ['data' => $data, 'imgurl' => $imgurl]);
